@@ -9,7 +9,7 @@ const schemaContact = Joi.object({
   email: Joi.string().email({
     minDomainSegments: 2,
   }),
-  phone: Joi.string().required(),
+  phone: Joi.string().regex(/(.*\d.*){10,}/),
 });
 // .and("name", "email", "phone");
 // .or("name", "email", "phone");
