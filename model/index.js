@@ -44,7 +44,12 @@ const removeContact = async (contactId) => {
 
     if (!Object.keys(deletedContact).length) return;
 
-    await fs.writeFile(contactsPath, JSON.stringify(updatedContactsList));
+    await fs.writeFile(
+      contactsPath,
+      JSON.stringify(updatedContactsList),
+      null,
+      2
+    );
 
     return deletedContact;
   } catch (error) {
@@ -64,7 +69,7 @@ const addContact = async (body) => {
     const id = nanoid();
     const newContact = { id, name, email, phone };
     contactsList.push(newContact);
-    fs.writeFile(contactsPath, JSON.stringify(contactsList));
+    fs.writeFile(contactsPath, JSON.stringify(contactsList), null, 2);
     return newContact;
   } catch (error) {
     throw error;
@@ -89,7 +94,7 @@ const updateContact = async (contactId, body) => {
 
     contactList[idx] = updatedContact;
 
-    await fs.writeFile(contactsPath, JSON.stringify(contactList));
+    await fs.writeFile(contactsPath, JSON.stringify(contactList), null, 2);
 
     return contactList[idx];
   } catch (error) {
