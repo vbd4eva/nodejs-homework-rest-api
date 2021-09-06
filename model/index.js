@@ -25,13 +25,6 @@ const getContactById = async (contactId) => {
 };
 
 const removeContact = async (contactId) => {
-  // Получает параметр contactId
-  // вызывает функцию removeContact для работы с json-файлом contacts.json
-  // если такой id есть, возвращает json формата {"message": "contact deleted"} и статусом 200
-  // если такого id нет, возвращает json с ключом "message": "Not found" и статусом 404
-  // return { message: `template message : removeContact(contactId)` };
-
-  // ...твой код
   try {
     const contactsList = await listContacts();
     let deletedContact = {};
@@ -46,9 +39,7 @@ const removeContact = async (contactId) => {
 
     await fs.writeFile(
       contactsPath,
-      JSON.stringify(updatedContactsList),
-      null,
-      2
+      JSON.stringify(updatedContactsList, null, 2)
     );
 
     return deletedContact;
@@ -69,7 +60,7 @@ const addContact = async (body) => {
     const id = nanoid();
     const newContact = { id, name, email, phone };
     contactsList.push(newContact);
-    fs.writeFile(contactsPath, JSON.stringify(contactsList), null, 2);
+    fs.writeFile(contactsPath, JSON.stringify(contactsList, null, 2));
     return newContact;
   } catch (error) {
     throw error;
@@ -94,7 +85,7 @@ const updateContact = async (contactId, body) => {
 
     contactList[idx] = updatedContact;
 
-    await fs.writeFile(contactsPath, JSON.stringify(contactList), null, 2);
+    await fs.writeFile(contactsPath, JSON.stringify(contactList, null, 2));
 
     return contactList[idx];
   } catch (error) {

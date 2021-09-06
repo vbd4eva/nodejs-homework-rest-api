@@ -2,9 +2,8 @@ const express = require("express");
 const router = express.Router();
 
 const Joi = require("joi");
-
 const schemaContact = Joi.object({
-  name: Joi.string().pattern(new RegExp("^[a-z A-Z]{3,30}$")),
+  name: Joi.string().pattern(new RegExp("^[a-яА-Я a-zA-Z-]{3,30}$")),
 
   email: Joi.string().email({
     minDomainSegments: 2,
