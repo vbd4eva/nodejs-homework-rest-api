@@ -1,25 +1,14 @@
 const express = require("express");
 const router = express.Router();
 
-const Joi = require("joi");
-const schemaContact = Joi.object({
-  name: Joi.string().pattern(new RegExp("^[a-яА-Я a-zA-Z-]{3,30}$")),
-
-  email: Joi.string().email({
-    minDomainSegments: 2,
-  }),
-  phone: Joi.string().regex(/(.*\d.*){10,}/),
-});
-// .and("name", "email", "phone");
-// .or("name", "email", "phone");
-
 const {
-  listContacts,
-  getContactById,
-  addContact,
-  removeContact,
-  updateContact,
-} = require("../../model");
+  // listContacts,
+  // getContactById,
+  // addContact,
+  // removeContact,
+  // updateContact,
+  Contact,
+} = require("../../models");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -49,18 +38,15 @@ router.get("/:contactId", async (req, res, next) => {
 router.post("/", async (req, res, next) => {
   const { body } = req;
   try {
-    const { error } = schemaContact
-      .and("name", "email", "phone")
-      .validate(body);
+    // const { error } = joiSchema.validate(body);
+    // if (error) {
+    //   return res.status(400).json({
+    //     message: error.message,
+    //   });
+    // }
 
-    if (error) {
-      return res.status(400).json({
-        message: error.message,
-      });
-    }
-    const newContact = await addContact(body);
-    if (!newContact) throw new Error(`Adding contact error`);
-    res.status(201).json({ newContact });
+    const result = Contact.create(body);
+    res.status(201).json({ result });
   } catch (error) {
     next(error);
   }
