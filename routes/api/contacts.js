@@ -68,8 +68,7 @@ router.patch("/:contactId", validationMiddleware, async (req, res, next) => {
     const updatedContact = await Contact.findByIdAndUpdate(contactId, body, {
       new: true,
     });
-    console.log(`updatedContact`.red);
-    console.log(`${updatedContact}`.red);
+
     if (!updatedContact)
       return res
         .status(404)
@@ -82,5 +81,40 @@ router.patch("/:contactId", validationMiddleware, async (req, res, next) => {
     next(error);
   }
 });
+
+router.patch(
+  "/:contactId/favorite",
+
+  async (req, res, next) => {
+    const { contactId } = req.params;
+    const { favorite } = req.body;
+
+    if (favorite === undefined) {
+      return res.status(400).json({
+        message: "missing field favorite",
+      });
+    }
+    try {
+      const updatedContact = await Contact.findByIdAndUpdate(
+        contactId,
+        { favorite },
+        {
+          new: true,
+        }
+      );
+
+      if (!updatedContact)
+        return res
+          .status(404)
+          .json({ message: `contactId =${contactId}. Not found` });
+
+      res.json({
+        updatedContact,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 module.exports = router;
