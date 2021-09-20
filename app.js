@@ -1,3 +1,4 @@
+const colors = require("colors");
 const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
@@ -19,8 +20,9 @@ app.use((_, res) => {
 });
 
 app.use((err, _, res, __) => {
-  const { message } = err;
-  res.status(500).json({ message });
+  const { message, status } = err;
+  console.log(message.brightMagenta);
+  res.status(status || 500).json({ message });
 });
 
 module.exports = app;
